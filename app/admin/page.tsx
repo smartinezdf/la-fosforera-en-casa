@@ -4,6 +4,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Dish, Order, Settings } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 export default async function AdminPage() {
   const supabase = createServerSupabaseClient();

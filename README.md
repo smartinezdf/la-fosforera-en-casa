@@ -57,10 +57,10 @@ Build command:
 npm run cf:build
 ```
 
-Deploy:
+Build output directory:
 
 ```bash
-npm run cf:deploy
+.vercel/output/static
 ```
 
 ## Operación diaria
