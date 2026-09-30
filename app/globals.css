@@ -1,0 +1,524 @@
+:root {
+  --ink: #11110f;
+  --muted: #73675b;
+  --paper: #f8efe3;
+  --paper-soft: #fff8ef;
+  --line: rgba(17, 17, 15, 0.12);
+  --brand: #ef3e12;
+  --brand-dark: #c83210;
+  --cream: #f1dfca;
+  --success: #188451;
+  --warning: #b56b00;
+  --danger: #b42318;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(239, 62, 18, 0.08), transparent 28rem),
+    linear-gradient(180deg, #f9efe4 0%, #fff8ef 52%, #f4e5d4 100%);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 18px 16px 100px;
+}
+
+.serif {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.08em;
+}
+
+.script-word {
+  color: var(--brand);
+  font-style: italic;
+  font-weight: 800;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: var(--ink);
+  color: #fff8ef;
+  font-weight: 750;
+  transition: transform 0.16s ease, opacity 0.16s ease, background 0.16s ease;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.btn.secondary {
+  background: rgba(17, 17, 15, 0.06);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.btn.danger {
+  background: var(--danger);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: rgba(255, 248, 239, 0.72);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 248, 239, 0.82);
+  box-shadow: 0 16px 50px rgba(32, 20, 12, 0.08);
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--ink);
+  outline: none;
+}
+
+.field textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: rgba(239, 62, 18, 0.55);
+  box-shadow: 0 0 0 3px rgba(239, 62, 18, 0.12);
+}
+
+.status-chip {
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-chip.ok {
+  background: rgba(24, 132, 81, 0.12);
+  color: var(--success);
+}
+
+.status-chip.wait {
+  background: rgba(181, 107, 0, 0.13);
+  color: var(--warning);
+}
+
+.status-chip.bad {
+  background: rgba(180, 35, 24, 0.11);
+  color: var(--danger);
+}
+
+@media (min-width: 780px) {
+  .page-shell {
+    padding: 28px 28px 120px;
+  }
+}
+
+.hero {
+  display: grid;
+  gap: 18px;
+  padding: 12px 0 24px;
+}
+
+.hero-mark {
+  display: grid;
+  place-items: center;
+  min-height: 126px;
+}
+
+.hero-mark img {
+  width: min(86vw, 420px);
+  height: auto;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 12vw, 4.8rem);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.hero p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.demo-note {
+  color: var(--brand-dark);
+  font-size: 0.88rem;
+}
+
+.ordering-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.menu-list {
+  display: grid;
+  gap: 12px;
+}
+
+.dish {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.dish-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dish h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dish p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.dish-footer {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.price-stack {
+  display: grid;
+  gap: 2px;
+}
+
+.price-stack strong {
+  color: var(--brand);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+.price-stack span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.qty-control {
+  display: grid;
+  grid-template-columns: 42px 34px 42px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fffaf2;
+}
+
+.qty-control button {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+}
+
+.qty-control button:disabled {
+  color: rgba(17, 17, 15, 0.28);
+  cursor: not-allowed;
+}
+
+.qty-control span {
+  text-align: center;
+  font-weight: 800;
+}
+
+.checkout {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+  align-self: start;
+}
+
+.checkout-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.checkout-title h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.cart-lines {
+  display: grid;
+  gap: 10px;
+}
+
+.cart-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.cart-line div {
+  display: grid;
+  gap: 3px;
+}
+
+.cart-line span,
+.empty,
+.totals small,
+.payment-box small {
+  color: var(--muted);
+}
+
+.cart-line button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+.totals {
+  display: grid;
+  gap: 10px;
+}
+
+.totals > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+}
+
+.totals small {
+  grid-column: 2;
+}
+
+.grand-total {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.grand-total strong {
+  color: var(--brand);
+  font-size: 1.25rem;
+}
+
+.payment-box {
+  display: grid;
+  gap: 3px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff8ef;
+  padding: 14px;
+}
+
+.payment-box span {
+  color: rgba(255, 248, 239, 0.68);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.payment-box small {
+  color: rgba(255, 248, 239, 0.72);
+}
+
+.checkout-form {
+  display: grid;
+  gap: 12px;
+}
+
+.result-message {
+  margin: 0;
+  border-radius: 8px;
+  background: rgba(239, 62, 18, 0.1);
+  padding: 12px;
+  color: var(--brand-dark);
+  line-height: 1.45;
+}
+
+.admin-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-section {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.admin-section h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.compact-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.dish-admin-row,
+.order-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.row-actions .btn {
+  min-height: 38px;
+  padding: 9px 12px;
+  font-size: 0.88rem;
+}
+
+.order-meta {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.login-card {
+  max-width: 430px;
+  margin: 12vh auto 0;
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+@media (min-width: 880px) {
+  .hero {
+    grid-template-columns: 0.82fr 1.18fr;
+    align-items: center;
+    padding: 28px 0 38px;
+  }
+
+  .ordering-grid {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+  }
+
+  .checkout {
+    position: sticky;
+    top: 18px;
+  }
+
+  .admin-grid {
+    grid-template-columns: 0.82fr 1.18fr;
+    align-items: start;
+  }
+}

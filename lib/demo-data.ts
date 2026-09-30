@@ -1,0 +1,106 @@
+import type { Dish, Order, Settings } from "./types";
+
+export const demoSettings: Settings = {
+  usd_to_bs_rate: 56.76,
+  delivery_usd: 2,
+  payment_mobile_phone: "Configurar en admin",
+  payment_mobile_bank: "Configurar banco",
+  payment_mobile_id: "Configurar documento",
+  restaurant_whatsapp: "00000000000",
+};
+
+export const demoDishes: Dish[] = [
+  {
+    id: "sopa-res",
+    name: "Sopa de res",
+    description: "Sopa casera servida caliente, con sabor tradicional.",
+    price_usd: 5,
+    is_available: true,
+    is_today: true,
+    sort_order: 1,
+  },
+  {
+    id: "sopa-fosforera",
+    name: "Sopa fosforera",
+    description: "Receta de la casa con mariscos, intensa y reconfortante.",
+    price_usd: 11,
+    is_available: true,
+    is_today: true,
+    sort_order: 2,
+  },
+  {
+    id: "rueda-carite",
+    name: "Rueda de carite",
+    description: "Frita, a la plancha o al ajillo.",
+    price_usd: 11,
+    is_available: true,
+    is_today: true,
+    sort_order: 3,
+  },
+  {
+    id: "arroz-mariscos",
+    name: "Arroz salteado con mariscos",
+    description: "Arroz al punto, salteado con sazón familiar.",
+    price_usd: 17,
+    is_available: true,
+    is_today: true,
+    sort_order: 4,
+  },
+  {
+    id: "pollo-ajoporro",
+    name: "Pollo con salsa de ajoporro",
+    description: "Pollo jugoso con salsa cremosa de ajoporro.",
+    price_usd: 8,
+    is_available: true,
+    is_today: true,
+    sort_order: 5,
+  },
+  {
+    id: "pasta-pomodoro",
+    name: "Pasta pomodoro con pollo",
+    description: "Pasta fresca con pomodoro y pollo a la plancha.",
+    price_usd: 8,
+    is_available: false,
+    is_today: true,
+    sort_order: 6,
+  },
+];
+
+export const demoOrders: Order[] = [
+  {
+    id: "demo-orden-1",
+    customer_name: "Pedido de ejemplo",
+    customer_phone: "00000000000",
+    delivery_address: "Direccion de ejemplo",
+    location_reference: "Referencia de ejemplo",
+    notes: null,
+    subtotal_usd: 16,
+    delivery_usd: 2,
+    total_usd: 18,
+    usd_to_bs_rate: demoSettings.usd_to_bs_rate,
+    total_bs: 18 * demoSettings.usd_to_bs_rate,
+    order_status: "pending",
+    payment_status: "pending_reference",
+    payment_reference: null,
+    cancellation_reason: null,
+    created_at: new Date().toISOString(),
+    order_items: [
+      {
+        id: "demo-item-1",
+        dish_id: "sopa-fosforera",
+        dish_name: "Sopa fosforera",
+        quantity: 1,
+        unit_price_usd: 11,
+        line_total_usd: 11,
+      },
+      {
+        id: "demo-item-2",
+        dish_id: "sopa-res",
+        dish_name: "Sopa de res",
+        quantity: 1,
+        unit_price_usd: 5,
+        line_total_usd: 5,
+      },
+    ],
+  },
+];
