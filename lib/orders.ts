@@ -5,6 +5,7 @@ export const checkoutSchema = z.object({
   customerName: z.string().min(2),
   customerPhone: z.string().min(7),
   deliveryAddress: z.string().min(8),
+  fulfillmentMethod: z.enum(["delivery", "pickup"]).default("delivery"),
   locationReference: z.string().optional(),
   notes: z.string().optional(),
   paymentReference: z.string().optional(),
@@ -56,7 +57,7 @@ export async function createOrder(input: z.infer<typeof checkoutSchema>) {
   });
 
   const subtotal = orderItems.reduce((sum, item) => sum + item.line_total_usd, 0);
-  const deliveryUsd = Number(settings.delivery_usd);
+  const deliveryUsd = input.fulfillmentMethod === "pickup" ? 0 : Number(settings.delivery_usd);
   const totalUsd = subtotal + deliveryUsd;
   const rate = Number(settings.usd_to_bs_rate);
 
@@ -67,7 +68,9 @@ export async function createOrder(input: z.infer<typeof checkoutSchema>) {
       customer_phone: input.customerPhone,
       delivery_address: input.deliveryAddress,
       location_reference: input.locationReference || null,
-      notes: input.notes || null,
+      notes: [input.fulfillmentMethod === "pickup" ? "Retiro en pickup" : "Delivery en La Guaira", input.notes]
+        .filter(Boolean)
+        .join(" · "),
       subtotal_usd: subtotal,
       delivery_usd: deliveryUsd,
       total_usd: totalUsd,

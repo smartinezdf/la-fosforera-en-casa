@@ -202,14 +202,17 @@ a {
 
 .hero-copy {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(2.25rem, 12vw, 4.8rem);
-  font-weight: 500;
-  text-transform: uppercase;
+  max-width: 650px;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.85rem, 15vw, 6.4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
 }
 
 .hero p {
@@ -217,6 +220,36 @@ a {
   margin: 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.eyebrow {
+  color: var(--brand-dark);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mini-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(239, 62, 18, 0.28);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 750;
+  line-height: 1.35;
+  padding-bottom: 4px;
+}
+
+.muted-link {
+  color: var(--muted);
 }
 
 .demo-note {
@@ -414,12 +447,51 @@ a {
   gap: 12px;
 }
 
+.delivery-toggle {
+  display: grid;
+  grid-template-columns: 1fr 0.72fr;
+  gap: 8px;
+  border-radius: 8px;
+  background: rgba(17, 17, 15, 0.05);
+  padding: 5px;
+}
+
+.delivery-toggle button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.delivery-toggle button.active {
+  background: #fffaf2;
+  color: var(--ink);
+  box-shadow: 0 8px 22px rgba(32, 20, 12, 0.08);
+}
+
+.pickup-box {
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(239, 62, 18, 0.22);
+  border-radius: 8px;
+  background: rgba(239, 62, 18, 0.07);
+  padding: 12px;
+}
+
+.pickup-box span {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
 .result-message {
   margin: 0;
   border-radius: 8px;
-  background: rgba(239, 62, 18, 0.1);
+  background: rgba(24, 132, 81, 0.1);
   padding: 12px;
-  color: var(--brand-dark);
+  color: var(--success);
+  font-weight: 750;
   line-height: 1.45;
 }
 

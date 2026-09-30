@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Minus, Plus, ShoppingBag, Sparkles, Trash2 } from "lucide-react";
+import { MapPin, Minus, Phone, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { CartItem, Dish, Settings } from "@/lib/types";
 import { bs, usd } from "@/lib/format";
@@ -15,6 +15,7 @@ type Props = {
 type CheckoutFields = {
   customerName: string;
   customerPhone: string;
+  fulfillmentMethod: "delivery" | "pickup";
   deliveryAddress: string;
   locationReference: string;
   notes: string;
@@ -24,6 +25,7 @@ type CheckoutFields = {
 const initialFields: CheckoutFields = {
   customerName: "",
   customerPhone: "",
+  fulfillmentMethod: "delivery",
   deliveryAddress: "",
   locationReference: "",
   notes: "",
@@ -38,7 +40,9 @@ export function PublicOrderingApp({ dishes, settings, demoMode }: Props) {
   const availableToday = dishes.filter((dish) => dish.is_today).sort((a, b) => a.sort_order - b.sort_order);
 
   const subtotal = useMemo(() => cart.reduce((sum, item) => sum + item.dish.price_usd * item.quantity, 0), [cart]);
-  const total = subtotal + settings.delivery_usd;
+  const deliveryFee = fields.fulfillmentMethod === "pickup" ? 0 : settings.delivery_usd;
+  const total = subtotal + deliveryFee;
+  const pickupAddress = "Av. Atlantida, Calle 6, Qta Guadalupana, La Guaira";
 
   function setQuantity(dish: Dish, nextQuantity: number) {
     setCart((current) => {
@@ -66,6 +70,7 @@ export function PublicOrderingApp({ dishes, settings, demoMode }: Props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...fields,
+        deliveryAddress: fields.fulfillmentMethod === "pickup" ? pickupAddress : fields.deliveryAddress,
         items: cart.map((item) => ({ dishId: item.dish.id, quantity: item.quantity })),
       }),
     });
@@ -77,7 +82,7 @@ export function PublicOrderingApp({ dishes, settings, demoMode }: Props) {
       return;
     }
 
-    setOrderResult(`Pedido recibido: ${payload.orderId}. Estado inicial: pago pendiente de verificacion y orden pendiente de aceptar.`);
+    setOrderResult("Pedido recibido. Revisaremos tu referencia de Pago Movil y te confirmaremos por WhatsApp cuando el restaurante acepte la orden.");
     setCart([]);
     setFields(initialFields);
   }
@@ -89,11 +94,19 @@ export function PublicOrderingApp({ dishes, settings, demoMode }: Props) {
           <Image src="/logo-la-fosforera.png" alt="La Fosforera en Casa" width={510} height={216} priority />
         </div>
         <div className="hero-copy">
-          <span className="pill">
-            <Sparkles size={15} /> El sabor de siempre
-          </span>
-          <h1 className="serif">Menú del día</h1>
-          <p>Comida familiar venezolana hecha en casa. Haz tu pedido, registra tu Pago Móvil y el restaurante confirma el pago y acepta la orden.</p>
+          <span className="eyebrow">La Guaira · Cocina de costa hecha en casa</span>
+          <h1>Menú de hoy</h1>
+          <p>
+            Platos caseros con sabor de mar y mesa familiar. Delivery solo en La Guaira; pedidos para Caracas se entregan al final del dia por encargo.
+          </p>
+          <div className="hero-actions">
+            <a className="mini-link" href={`https://wa.me/${settings.restaurant_whatsapp.replace(/[^\d]/g, "")}`}>
+              <Phone size={15} /> Plato especial o encargo: {settings.restaurant_whatsapp}
+            </a>
+            <span className="mini-link muted-link">
+              <MapPin size={15} /> Pickup: {pickupAddress}
+            </span>
+          </div>
           {demoMode ? <strong className="demo-note">Modo demo: conecta Supabase para datos reales.</strong> : null}
         </div>
       </section>
@@ -165,9 +178,9 @@ export function PublicOrderingApp({ dishes, settings, demoMode }: Props) {
               <small>{bs(subtotal * settings.usd_to_bs_rate)}</small>
             </div>
             <div>
-              <span>Delivery</span>
-              <strong>{usd(settings.delivery_usd)}</strong>
-              <small>{bs(settings.delivery_usd * settings.usd_to_bs_rate)}</small>
+              <span>{fields.fulfillmentMethod === "pickup" ? "Pickup" : "Delivery"}</span>
+              <strong>{usd(deliveryFee)}</strong>
+              <small>{bs(deliveryFee * settings.usd_to_bs_rate)}</small>
             </div>
             <div className="grand-total">
               <span>Total</span>
@@ -179,33 +192,69 @@ export function PublicOrderingApp({ dishes, settings, demoMode }: Props) {
           <div className="payment-box">
             <span>Pago Móvil</span>
             <strong>{settings.payment_mobile_phone}</strong>
-            <small>{settings.payment_mobile_bank} · {settings.payment_mobile_id}</small>
+            <small>{settings.payment_mobile_bank} · {settings.payment_mobile_id}. Coloca la referencia para agilizar la confirmacion.</small>
           </div>
 
           <form className="checkout-form" onSubmit={submitOrder}>
             <label className="field">
               <span>Nombre</span>
-              <input required value={fields.customerName} onChange={(event) => setFields({ ...fields, customerName: event.target.value })} />
+              <input required placeholder="Tu nombre" value={fields.customerName} onChange={(event) => setFields({ ...fields, customerName: event.target.value })} />
             </label>
             <label className="field">
-              <span>WhatsApp</span>
-              <input required inputMode="tel" value={fields.customerPhone} onChange={(event) => setFields({ ...fields, customerPhone: event.target.value })} />
+              <span>WhatsApp obligatorio</span>
+              <input
+                required
+                inputMode="tel"
+                minLength={7}
+                placeholder="Ej: 0412-0000000"
+                title="Necesitamos tu numero de WhatsApp para confirmar el pedido."
+                value={fields.customerPhone}
+                onChange={(event) => setFields({ ...fields, customerPhone: event.target.value })}
+              />
             </label>
-            <label className="field">
-              <span>Dirección de delivery</span>
-              <textarea required value={fields.deliveryAddress} onChange={(event) => setFields({ ...fields, deliveryAddress: event.target.value })} />
-            </label>
+            <div className="delivery-toggle" role="group" aria-label="Metodo de entrega">
+              <button
+                type="button"
+                className={fields.fulfillmentMethod === "delivery" ? "active" : ""}
+                onClick={() => setFields({ ...fields, fulfillmentMethod: "delivery" })}
+              >
+                Delivery en La Guaira
+              </button>
+              <button
+                type="button"
+                className={fields.fulfillmentMethod === "pickup" ? "active" : ""}
+                onClick={() => setFields({ ...fields, fulfillmentMethod: "pickup", deliveryAddress: "" })}
+              >
+                Pickup
+              </button>
+            </div>
+            {fields.fulfillmentMethod === "delivery" ? (
+              <label className="field">
+                <span>Dirección en La Guaira</span>
+                <textarea
+                  required
+                  placeholder="Urbanizacion, edificio/casa, calle y punto de referencia"
+                  value={fields.deliveryAddress}
+                  onChange={(event) => setFields({ ...fields, deliveryAddress: event.target.value })}
+                />
+              </label>
+            ) : (
+              <div className="pickup-box">
+                <strong>Retiro en tienda</strong>
+                <span>{pickupAddress}</span>
+              </div>
+            )}
             <label className="field">
               <span>Referencia de ubicación</span>
-              <input value={fields.locationReference} onChange={(event) => setFields({ ...fields, locationReference: event.target.value })} />
+              <input placeholder="Color de casa, edificio, porton, piso..." value={fields.locationReference} onChange={(event) => setFields({ ...fields, locationReference: event.target.value })} />
             </label>
             <label className="field">
               <span>Referencia Pago Móvil</span>
-              <input inputMode="numeric" value={fields.paymentReference} onChange={(event) => setFields({ ...fields, paymentReference: event.target.value })} />
+              <input inputMode="numeric" placeholder="Ultimos numeros de la referencia" value={fields.paymentReference} onChange={(event) => setFields({ ...fields, paymentReference: event.target.value })} />
             </label>
             <label className="field">
               <span>Notas opcionales</span>
-              <textarea value={fields.notes} onChange={(event) => setFields({ ...fields, notes: event.target.value })} />
+              <textarea placeholder="Sin picante, hora ideal, plato especial, encargo para Caracas..." value={fields.notes} onChange={(event) => setFields({ ...fields, notes: event.target.value })} />
             </label>
             <button className="btn" disabled={!cart.length || isSubmitting} type="submit">
               {isSubmitting ? "Enviando..." : "Enviar pedido"}

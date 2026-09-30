@@ -111,15 +111,15 @@ export function AdminApp({ initialDishes, initialOrders, initialSettings, demoMo
     <main className="page-shell admin-shell">
       <header className="admin-header">
         <div>
-          <span className="pill">Admin</span>
-          <h1>La Fosforera en Casa</h1>
+          <span className="pill">Panel de pedidos</span>
+          <h1>Operación del día</h1>
         </div>
         {demoMode ? <span className="status-chip wait">Modo demo</span> : <span className="status-chip ok">Supabase activo</span>}
       </header>
 
       <section className="admin-grid">
         <div className="admin-section card">
-          <h2>Configuración</h2>
+          <h2>Ajustes del restaurante</h2>
           <div className="compact-grid">
             <label className="field">
               <span>Tasa USD/Bs</span>
@@ -148,7 +148,7 @@ export function AdminApp({ initialDishes, initialOrders, initialSettings, demoMo
         </div>
 
         <div className="admin-section card">
-          <h2>Pedidos nuevos</h2>
+          <h2>Pedidos en vivo</h2>
           <div className="compact-grid">
             {orders.map((order) => (
               <article className="order-card" key={order.id}>
@@ -158,7 +158,7 @@ export function AdminApp({ initialDishes, initialOrders, initialSettings, demoMo
                     <div className="order-meta">
                       <span>{order.delivery_address}</span>
                       <span>Total: {usd(order.total_usd)} · {bs(order.total_bs)}</span>
-                      <span>Pago: {order.payment_status} · Pedido: {order.order_status}</span>
+                      <span>Pago: {paymentLabels[order.payment_status]} · Pedido: {orderLabels[order.order_status]}</span>
                       {order.payment_reference ? <span>Ref. pago: {order.payment_reference}</span> : null}
                     </div>
                   </div>
